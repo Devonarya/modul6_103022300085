@@ -6,7 +6,10 @@ public class SayaTubeVideo {
     private string title;
     private int playCount;
     public string Title { get { return title; } }
-    public SayaTubeVideo(string title) { 
+    public SayaTubeVideo(string title) {
+        if (string.IsNullOrEmpty(title) || title.Length > 200) {
+            throw new ArgumentException("Judul tidak boleh Kosong dan maksimal adalah 200 kata");
+        }
         Random randomNumber = new Random();
         this.id = randomNumber.Next(10000, 99999);
         this.title = title;
@@ -14,7 +17,17 @@ public class SayaTubeVideo {
     }
 
     public void increasePlayCount(int count) {
-        playCount += count;
+        if (count > 25000000) {
+            throw new ArgumentException("Playcount tidak boleh melebihi 25.000.000");
+        }
+        try {
+            checked {
+                this.playCount += count;
+            }
+        }
+        catch {
+            Console.WriteLine("Play count max");
+        }
     }
 
     public void printVideoDetails() {
@@ -35,6 +48,10 @@ public class SayaTubeUser
     private string username;
 
     public SayaTubeUser(string username) {
+        if (string.IsNullOrEmpty(username) || username.Length > 100)
+        {
+            throw new ArgumentException("Usernmae tidak boleh Kosong dan maksimal adalah 100 kata");
+        }
         Random randomNumber = new Random();
         this.id = randomNumber.Next(10000, 99999);
         this.username = username;
@@ -42,6 +59,9 @@ public class SayaTubeUser
     }
 
     public void AddVideo(SayaTubeVideo video) {
+        if (video == null) {
+            throw new AbandonedMutexException("Video tidak boleh null");
+    }
         UploadedVideos.Add(video);
     }
 
@@ -70,8 +90,6 @@ public class Program {
             user.AddVideo(video);
         }
         user.PrintAllVideoPlayCount();
-
-        Console.WriteLine("Hello world");
     }
 }
 
