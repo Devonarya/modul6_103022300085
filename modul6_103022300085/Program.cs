@@ -70,5 +70,8 @@ public class Program {
             user.AddVideo(video);
         }
         user.PrintAllVideoPlayCount();
+
+        Console.WriteLine("Hello world");
     }
 }
+
